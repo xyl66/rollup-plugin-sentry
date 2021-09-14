@@ -8,7 +8,7 @@
     "vite-plugin"
   ],
   "author": "xyl66",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "license": "MIT",
   "repository": "git@github.com:xyl66/rollup-plugin-sentry.git",
   "homepage": "https://github.com/xyl66/rollup-plugin-sentry",

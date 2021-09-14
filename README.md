@@ -3,19 +3,16 @@
         <img src="https://sentry-brand.storage.googleapis.com/sentry-logo-black.png" width="280">
     </a>
 <br/>
-    <h1>Sentry Webpack Plugin</h1>
+    <h1>Sentry Vite Plugin</h1>
 </p>
 
 [![codecov](https://codecov.io/gh/getsentry/sentry-webpack-plugin/branch/master/graph/badge.svg)](https://codecov.io/gh/getsentry/sentry-webpack-plugin)
-[![npm version](https://img.shields.io/npm/v/@sentry/webpack-plugin.svg)](https://www.npmjs.com/package/@sentry/webpack-plugin)
-[![npm dm](https://img.shields.io/npm/dm/@sentry/webpack-plugin.svg)](https://www.npmjs.com/package/@sentry/webpack-plugin)
-[![npm dt](https://img.shields.io/npm/dt/@sentry/webpack-plugin.svg)](https://www.npmjs.com/package/@sentry/webpack-plugin)
 
 [![deps](https://david-dm.org/getsentry/sentry-webpack-plugin/status.svg)](https://david-dm.org/getsentry/sentry-webpack-plugin?view=list)
 [![deps dev](https://david-dm.org/getsentry/sentry-webpack-plugin/dev-status.svg)](https://david-dm.org/getsentry/sentry-webpack-plugin?type=dev&view=list)
 [![deps peer](https://david-dm.org/getsentry/sentry-webpack-plugin/peer-status.svg)](https://david-dm.org/getsentry/sentry-webpack-plugin?type=peer&view=list)
 
-A webpack plugin acting as an interface to
+A vite plugin acting as an interface to
 [Sentry CLI](https://docs.sentry.io/learn/cli/).
 
 ### Installation
@@ -23,13 +20,13 @@ A webpack plugin acting as an interface to
 Using npm:
 
 ```bash
-$ npm install @sentry/webpack-plugin --save-dev
+$ npm install rollup-plugin-sentry --save-dev
 ```
 
 Using yarn:
 
 ```bash
-$ yarn add @sentry/webpack-plugin --dev
+$ yarn add rollup-plugin-sentry --dev
 ```
 
 ### CLI Configuration
@@ -40,18 +37,24 @@ https://docs.sentry.io/cli/configuration.
 ### Usage
 
 ```js
-const SentryCliPlugin = require('@sentry/webpack-plugin');
+import rollupSentry from 'rollup-plugin-sentry';
 
-const config = {
+export default defineConfig({
   plugins: [
-    new SentryCliPlugin({
-      include: '.',
-      ignoreFile: '.sentrycliignore',
-      ignore: ['node_modules', 'webpack.config.js'],
-      configFile: 'sentry.properties',
-    }),
-  ],
-};
+    rollupSentry({
+      url: 'https://sentry.com/',
+        authToken:
+          'authtoken',
+        org: 'sentry',
+        project: 'project',
+        release: process.env.RELEASE || 'dev',
+        include: [path.resolve(process.cwd(), 'build')],
+        ignore: ['node_modules', 'webpack.config.js'],
+        deleteAfterCompile: true,
+    })
+  ]
+})
+
 ```
 
 Also, check the [example](example) directory.

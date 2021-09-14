@@ -246,7 +246,6 @@ class MyPlugin {
   }
 
   async deleteFiles() {
-    console.log('开始删除文件');
     if (!this.options.deleteAfterCompile) {
       return;
     }
@@ -292,8 +291,7 @@ function rollupSentry(options = {}) {
         }
       }
       try {
-        const releasRes = await plugInstance.finalizeRelease(options);
-        console.log('release', releasRes);
+        await plugInstance.finalizeRelease(options);
         await plugInstance.deleteFiles();
       } catch (error) {
         console.warn(error);
