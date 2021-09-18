@@ -89,7 +89,11 @@ export interface SentryCliPluginOptions
    * webpack compilation failure can be chosen by calling invokeErr callback or not.
    * defaults to `(err, invokeErr) => { invokeErr() }`
    */
-  errorHandler?: (err: Error, invokeErr: () => void, compilation: Compilation) => void;
+  errorHandler?: (
+    err: Error,
+    invokeErr: () => void,
+    compilation: Compilation
+  ) => void;
 
   /**
    * Adds commits to sentry
@@ -102,9 +106,6 @@ export interface SentryCliPluginOptions
   deploy?: SentryCliNewDeployOptions;
 }
 
-declare class SentryCliPlugin implements WebpackPluginInstance {
-  constructor(options: SentryCliPluginOptions);
-  apply(compiler: Compiler): void;
-}
+declare function SentryCliPlugin(options: SentryCliPluginOptions);
 
 export default SentryCliPlugin;
