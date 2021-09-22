@@ -135,16 +135,11 @@ class MyPlugin {
     if (data !== undefined) {
       // eslint-disable-next-line no-console
       console.warn(
-        `[Sentry Webpack Plugin] ${label} ${util.inspect(
-          data,
-          false,
-          null,
-          true
-        )}`
+        `[Sentry Vite Plugin] ${label} ${util.inspect(data, false, null, true)}`
       );
     } else {
       // eslint-disable-next-line no-console
-      console.warn(`[Sentry Webpack Plugin] ${label}`);
+      console.warn(`[Sentry Vite Plugin] ${label}`);
     }
   }
 
@@ -250,7 +245,19 @@ class MyPlugin {
       return;
     }
     const { build } = this.config;
-    const assetsPath = `${build.outDir}/${build.assetsDir}`;
+    const { assetsDirPath } = this.options;
+    let assetsPath = '';
+
+    if (build) {
+      assetsPath = `${build.outDir}/${build.assetsDir}`;
+    } else if (assetsDirPath) {
+      assetsPath = assetsDirPath;
+    } else {
+      console.warn(
+        `RollupSentryPlugin: Floder does not exist; if use in rollup please set assetsDirPath.`
+      );
+      return;
+    }
     const assets = await fs.readdirSync(
       path.resolve(process.cwd(), assetsPath)
     );
@@ -277,6 +284,7 @@ function rollupSentry(options = {}) {
   let config;
   return {
     name: 'rollup-sentry', // 必须的，将会在 warning 和 error 中显示
+    apply: 'build',
     async configResolved(resolvedConfig) {
       // 存储最终解析的配置
       config = resolvedConfig;

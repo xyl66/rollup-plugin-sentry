@@ -43,7 +43,7 @@ import rollupSentry from 'rollup-plugin-sentry';
 export default defineConfig({
   plugins: [
     rollupSentry({
-      url: 'https://sentry.com/',
+        url: 'https://sentry.com/',
         authToken:
           'authtoken',
         org: 'sentry',
@@ -52,6 +52,7 @@ export default defineConfig({
         include: [path.resolve(process.cwd(), 'build')],
         ignore: ['node_modules', 'webpack.config.js'],
         deleteAfterCompile: true,
+        // assetsPath: 'build/asstes', // use in rollup need
     })
   ]
 })
@@ -65,6 +66,7 @@ Also, check the [example](example) directory.
 | Option             | Type                                                                                | Required | Description                                                                                                                                                                                                                                                                                                                                                                     |
 | ------------------ | ----------------------------------------------------------------------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | include            | `string`/`array`/`object`                                                           | required | One or more paths that Sentry CLI should scan recursively for sources. It will upload all `.map` files and match associated `.js` files. Each path can be given as an object with path-specific options. See [table below](#include) for details.                                                                                                                               |
+| assetsPath         | `string`                                                                            | required | when use in rollup, set this as `build/asstes` or other for delete map file after uploaded                                                                                                                                                                                                                                                                                      |
 | org                | `string`                                                                            | optional | The slug of the Sentry organization associated with the app.                                                                                                                                                                                                                                                                                                                    |
 | project            | `string`                                                                            | optional | The slug of the Sentry project associated with the app.                                                                                                                                                                                                                                                                                                                         |
 | authToken          | `string`                                                                            | optional | The authentication token to use for all communication with Sentry. Can be obtained from https://sentry.io/settings/account/api/auth-tokens/. Required scopes: `project:releases` (and `org:read` if `setCommits` option is used).                                                                                                                                               |
